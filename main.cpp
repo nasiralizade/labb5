@@ -11,48 +11,76 @@ int main() {
                           {"Benzema", 34},
                           {"Erikson", 19},
                           {"Dybala",  29},
-                          {"Messi",   35}};
-    std::vector<Person> people(peopleArr, peopleArr + 6);
-    Person::MyPrint myPrint;
-
-
-
+                          {"Dybala",  29}};
 
     //uppgift 1
+    std::vector<Person> people(peopleArr, peopleArr + 7);
+    MyPrint myPrint;
     std::for_each(people.begin(), people.end(), myPrint);
+
     //uppgift 2
-    Person::OlderThan older;
-    std::cout << "\nFörsta personen som är äldre än 20 år\n";
+    OlderThan older;
+    std::cout << "\nThe first person that is over 30 years old\n";
     myPrint(*(std::find_if(people.begin(), people.end(), older)));
+
     // uppgift 3 
-    std::cout << "adjacent_find\n";
-    myPrint(*std::adjacent_find(people.begin(), people.end()));  //varför den hittar ingen
+    std::cout << "\nadjacent_find\n";
+    auto pair = std::adjacent_find(people.begin(), people.end());
+    if (pair == people.end()) {
+        std::cout << "No person were found\n";
+    } else {
+        std::cout << "Found person: ";
+        myPrint(*pair);
+    }
+
     //uppgift 4
-    std::cout << "\n(equal) " << (std::equal(people.begin(), people.end(), peopleArr));
+    if (std::equal(people.begin(), people.end(), peopleArr)) {
+        std::cout << "\nThe containers are equal\n";
+    } else {
+        std::cout << "\nThe containers are NOT equal.\n";
+    }
     //uppgift 5
-    std::cout << "\n\n(search)\n";
-    myPrint(*std::search(people.begin(), people.end(), people.begin(), people.begin() + 3));
+    std::cout << "\n(search)\n";
+    int start = 1, end = 3;
+    auto subsequence = std::search(people.begin(), people.end(), people.begin() + start, people.begin() + end);
+    if (subsequence == people.begin()) {
+        std::cout << "No subsequence found\n";
+    } else {
+        for (int i = 0; i < end; ++i) {
+            myPrint(*subsequence);
+            subsequence++;
+        }
+    }
+
     // uppgift 6
-    Person::MyBinOp myBinOp;
-    Person::MyFunc myFunc;
+    MyBinOp myBinOp;
+    MyFunc myFunc;
+    std::cout << "\nCalculate the average of the persons ages using std::accumulate and MyBinOp.\n";
     double mean = std::accumulate(people.begin(), people.end(), 0.0, myBinOp) / people.size();
     myFunc.mean = mean;
-    std::cout << "\nAverage age: " << mean << "\n";
+    std::cout << "Average age: " << mean << "\n";
+
     // uppgift 7
-    std::vector<Person> v2(6);
-    Person::MyUnOp myUnOp;
+    std::vector<double> v2(7);
+    MyUnOp myUnOp;
+    PrintDoubleValue printDoubleValue;
     std::transform(people.begin(), people.end(), v2.begin(), myUnOp);
-    std::cout << "\nhälften av alla år (trsmdform)\n";
-    std::for_each(v2.begin(), v2.end(), myPrint);
+    std::cout << "\nfill in double vector 'v2' with age values from people using std::transform.\n";
+    std::for_each(v2.begin(), v2.end(), printDoubleValue);
+    std::cout << "\n";
+
     //uppgift 8
-    std::transform(v2.begin(), v2.end(), people.begin(), v2.begin(), myFunc);
-    std::cout << "\nage with mean removed (transform)\n";
-    std::for_each(v2.begin(), v2.end(), myPrint);
+    std::cout
+            << "\nReplacing all values in 'v2' with new ones using the MyFunc function operator, using the mean calculated from 5.\n";
+    std::transform(v2.begin(), v2.end(), v2.begin(), myFunc);
+    std::for_each(v2.begin(), v2.end(), printDoubleValue);
+    std::cout << "\n";
+
     //uppgift 9
-    Person::ComparePerson comparePerson;
-    std::sort(v2.begin(), v2.end(), comparePerson);
+    std::sort(v2.begin(), v2.end());
     std::cout << "\nSorted in ascending order\n";
-    std::for_each(v2.begin(), v2.end(), myPrint);
+    std::for_each(v2.begin(), v2.end(), printDoubleValue);
+    std::cout << "\n";
 
 
     return 0;
