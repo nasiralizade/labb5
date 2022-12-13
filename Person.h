@@ -4,35 +4,23 @@
 
 #ifndef LABB5_PERSON_H
 #define LABB5_PERSON_H
-
-
 #include <string>
 #include <iostream>
 
 class Person {
 public:
+    Person() = delete;
+    Person(const Person &person);
+    Person(std::string name, double age);
+    friend bool operator==(const Person &lhs, const Person &rhs);
+    virtual ~Person() = default;
 
     friend class MyFunc;
-
     friend class MyPrint;
-
     friend class OlderThan;
-
     friend class MyUnOp;
-
     friend class MyBinOp;
-
     friend class PrintDoubleValue;
-
-    Person() = delete;
-
-    Person(const Person &person);
-
-    Person(std::string name, double age);
-
-    friend bool operator==(const Person &lhs, const Person &rhs);
-
-    virtual ~Person() = default;
 
 
 private:
@@ -43,8 +31,7 @@ private:
 class MyFunc {
 public:
     double mean = 0;
-
-    double operator()(double d) {
+    double operator()(double d) const {
         return d - mean;
     }
 };

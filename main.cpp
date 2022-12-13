@@ -5,16 +5,16 @@
 
 
 int main() {
-    Person peopleArr[] = {{"Messi",   35},
-                          {"Ronaldo", 37},
-                          {"Zlatan",  41},
-                          {"Benzema", 34},
-                          {"Erikson", 19},
-                          {"Dybala",  29},
-                          {"Dybala",  29}};
+    std::vector<Person> peopleArr{{"Messi",   35},
+                                  {"Ronaldo", 37},
+                                  {"Zlatan",  41},
+                                  {"Benzema", 34},
+                                  {"Erikson", 19},
+                                  {"Dybala",  29},
+                                  {"Dybala",  20}};
 
     //uppgift 1
-    std::vector<Person> people(peopleArr, peopleArr + 7);
+    std::vector<Person> people(peopleArr.begin(), peopleArr.end());
     MyPrint myPrint;
     std::for_each(people.begin(), people.end(), myPrint);
 
@@ -34,7 +34,7 @@ int main() {
     }
 
     //uppgift 4
-    if (std::equal(people.begin(), people.end(), peopleArr)) {
+    if (std::equal(people.begin(), people.end(), peopleArr.begin())) {
         std::cout << "\nThe containers are equal\n";
     } else {
         std::cout << "\nThe containers are NOT equal.\n";
